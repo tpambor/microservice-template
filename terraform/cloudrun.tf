@@ -14,8 +14,17 @@ resource "google_cloud_run_v2_service" "default" {
 
   template {
     containers {
-      image = "us-docker.pkg.dev/cloudrun/container/hello"
+      name = "cloudrun"
+      image = "${data.google_artifact_registry_repository.default.location}-docker.pkg.dev/${data.google_artifact_registry_repository.default.project}/${data.google_artifact_registry_repository.default.repository_id}/test:latest"
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      client,
+      client_version,
+      template[0].containers[0].image
+    ] 
   }
 }
 
