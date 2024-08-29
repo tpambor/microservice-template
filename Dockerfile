@@ -6,4 +6,4 @@ RUN pip install -r /app/requirements.txt
 
 WORKDIR /app
 
-CMD ["hypercorn",  "--bind", "0.0.0.0:8080", "app:create_app()"]
+CMD ["gunicorn",  "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "8", "app:create_app()"]
